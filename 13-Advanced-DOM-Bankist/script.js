@@ -29,3 +29,54 @@ document.addEventListener('keydown', function(e) {
 		closeModal();
 	}
 });
+
+// Implement smooth scrolling
+const btnScrollTo = document.querySelector('.btn--scroll-to');
+
+const section1 = document.querySelector('#section--1');
+
+btnScrollTo.addEventListener('click', function(e) {
+	const s1coords = section1.getBoundingClientRect();
+	console.log('---- s1coords ----');
+	console.log(s1coords);
+
+	console.log(e.target.getBoundingClientRect());
+
+	console.log('Current scroll (X/Y)', window.pageXOffset, window.pageYOffset);
+
+	console.log('height/width viewport',
+		document.documentElement.clientHeight,
+		document.documentElement.clientWidth);
+
+	// Scrolling
+	// window.scrollTo(s1coords.left + window.pageYOffset, s1coords.top + window.pageYOffset);
+
+	// Applying smooth scrolling 
+	// window.scrollTo({
+	// 	left: s1coords.left + window.pageXOffset,
+	// 	top: s1coords.top + window.pageYOffset,
+	// 	behavior: 'smooth',
+	// });
+
+
+	// Only affecting in mordern browser
+	section1.scrollIntoView({ behavior: 'smooth' });
+});
+
+
+// Some more events 
+
+const h1 = document.querySelector('h1');
+
+const alertH1 = function(e) {
+	alert('addEventListener: Great! You are reading the heading :D');
+
+	h1.removeEventListener('mouseenter', alertH1);
+};
+
+
+h1.addEventListener('mouseenter', alertH1);
+
+// h1.onmouseenter = function(e) {
+// 	alert('onmouseenter: Great! You are reading the heading :D');
+// };

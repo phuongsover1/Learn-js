@@ -7,6 +7,10 @@ const modal = document.querySelector('.modal');
 const overlay = document.querySelector('.overlay');
 const btnCloseModal = document.querySelector('.btn--close-modal');
 const btnsOpenModal = document.querySelectorAll('.btn--show-modal');
+// Implement smooth scrolling
+const btnScrollTo = document.querySelector('.btn--scroll-to');
+
+const section1 = document.querySelector('#section--1');
 
 const openModal = function(e) {
 	e.preventDefault();
@@ -30,10 +34,6 @@ document.addEventListener('keydown', function(e) {
 	}
 });
 
-// Implement smooth scrolling
-const btnScrollTo = document.querySelector('.btn--scroll-to');
-
-const section1 = document.querySelector('#section--1');
 
 btnScrollTo.addEventListener('click', function(e) {
 	const s1coords = section1.getBoundingClientRect();
@@ -63,47 +63,27 @@ btnScrollTo.addEventListener('click', function(e) {
 	section1.scrollIntoView({ behavior: 'smooth' });
 });
 
+// Page Navigation
+// document.querySelectorAll('.nav__link').forEach(function(el) {
+// 	el.addEventListener('click', function(e) {
+// 		e.preventDefault();
+// 		const id = this.getAttribute('href'); // Để lấy relative(#section--1) thay vì absolute path : 127.0.0.1:8888/#section--1 
+// 		console.log(id); // #section--1
+// 		document.querySelector(id).scrollIntoView({ behavior: 'smooth' });
+// 	});
+// });
 
-// Some more events 
+// Using event delegation
+document.querySelector('.nav__links').addEventListener('click',
+	function(e) {
+		e.preventDefault();
 
-const h1 = document.querySelector('h1');
-
-const alertH1 = function(e) {
-	alert('addEventListener: Great! You are reading the heading :D');
-
-	h1.removeEventListener('mouseenter', alertH1);
-};
-
-
-h1.addEventListener('mouseenter', alertH1);
-
-// h1.onmouseenter = function(e) {
-// 	alert('onmouseenter: Great! You are reading the heading :D');
-// };
-
-
-
-// Event Propagation
-const randomInt = (min, max) =>
-	Math.floor(Math.random() * (max - min + 1) + min);
-
-const randomColor = () => `rgb(${randomInt(0, 255)},${randomInt(0, 255)},${randomInt(0, 255)})`;
-console.log(randomColor());
-
-document.querySelector('.nav__link').addEventListener('click', function(e) {
-	console.log('LINK', e.target, e.currentTarget);
-	console.log(e.currentTarget === this);
-
-	// Stop propagation
-	// e.stopPropagation();
-});
+		// Matching strategy 
+		if (e.target.classList.contains('nav__link')) {
+			const id = e.target.getAttribute('href');
+			console.log(id);
+			document.querySelector(id).scrollIntoView({ behavior: 'smooth' });
+		}
+	});
 
 
-document.querySelector('.nav__links').addEventListener('click', function(e) {
-	console.log('CONTAINER', e.target, e.currentTarget);
-});
-
-
-document.querySelector('.nav').addEventListener('click', function(e) {
-	console.log('NAV', e.target, e.currentTarget);
-}, true);

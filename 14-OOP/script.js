@@ -288,3 +288,40 @@ console.log(martha);
 martha.introduce();
 
 martha.calcAge();
+
+
+// Inheritance between classes using Object.create()
+const PersonProto = {
+	calcAge() {
+		console.log(2037 - this.birthYear);
+	},
+
+	init(firstName, birthYear) {
+		this.firstName = firstName;
+		this.birthYear = birthYear;
+	},
+
+};
+
+
+
+const StudentProto = Object.create(PersonProto);
+StudentProto.init = function(firstName, birthYear, course) {
+	PersonProto.init.bind(this, firstName, birthYear)();
+	this.course = course;
+};
+
+StudentProto.introduce = function() {
+	console.log('hello world');
+};
+
+// const testStudentProtoObj = StudentProto.init('Phuong', 2001, 'JS');
+console.log('---- testStudentProtoObj ----');
+// console.log(StudentProto);
+// console.log(testStudentProtoObj);
+const jay = Object.create(StudentProto);
+
+jay.init('Phuong', 2001, 'JS');
+console.log(jay);
+jay.introduce();
+jay.calcAge();

@@ -172,54 +172,119 @@
 // console.log(sarah);
 
 // Inheritance: Constructor function
-const Person = function(firstName, birthYear) {
-	this.firstName = firstName;
-	this.birthYear = birthYear;
-};
+// const Person = function(firstName, birthYear) {
+// 	this.firstName = firstName;
+// 	this.birthYear = birthYear;
+// };
+//
+// Person.prototype.calcAge = function() {
+// 	console.log(2037 - this.birthYear);
+// };
+//
+//
+// const Student = function(firstName, birthYear, course) {
+// 	Person.call(this, firstName, birthYear);
+// 	// Person(firstName, birthYear);
+// 	this.course = course;
+// };
+//
+//
+//
+//
+//
+//
+// // Chaining prototype in constructor object
+// // Student.prototype.__proto__ = Person.prototype;
+//
+// Student.prototype = Object.create(Person.prototype);
+//
+// Student.prototype.introduce = function() {
+// 	console.log(`My name is ${this.firstName} and I study ${this.course}`);
+// };
+//
+//
+// const mike = new Student('Mike', 2001, 'Java');
+//
+// console.log('---- After chaining -----');
+// console.log(mike);
+// mike.introduce();
+// console.log('Call calcAge function in Student\' objects');
+// mike.calcAge();
+//
+//
+// console.log('---- Student.prototype.constructor ----');
+// console.dir(Student.prototype.constructor);
+//
+// Student.prototype.constructor = Student;
+// console.log('---- Student.prototype.constructor ----');
+// console.dir(Student.prototype.constructor);
+//
+// console.log(mike instanceof Person);
+// console.log(mike instanceof Student);
 
-Person.prototype.calcAge = function() {
-	console.log(2037 - this.birthYear);
-};
 
 
-const Student = function(firstName, birthYear, course) {
-	Person.call(this, firstName, birthYear);
-	// Person(firstName, birthYear);
-	this.course = course;
-};
+class PersonCl {
+	constructor(fullName, birthYear) {
+		this.fullName = fullName;
+		this.birthYear = birthYear;
 
+		this.doSomething = function() {
+			console.log('doSomething');
+		};
+	}
 
+	// Instance method
+	// Methods will be added to .prototype property
+	calcAge() {
+		console.log(2037 - this.birthYear);
+	}
 
+	get age() {
+		return 2037 - this.birthYear;
+	}
 
+	// Set a property that already exists
+	set fullName(name) {
+		console.log(name);
+		if (name.includes(' ')) this._fullName = name;
+		else alert('`${name}` is not a full name!');
+	}
 
+	get fullName() {
+		return this._fullName;
+	}
 
-// Chaining prototype in constructor object
-// Student.prototype.__proto__ = Person.prototype;
+	// Static method 
+	static hey() {
+		console.log('--- hey in PersonCl ----');
+		console.log(this);
+	}
 
-Student.prototype = Object.create(Person.prototype);
+}
 
-Student.prototype.introduce = function() {
-	console.log(`My name is ${this.firstName} and I study ${this.course}`);
-};
+class StudentCl extends PersonCl {
 
+	constructor(fullName, birthYear, course) {
+		// Always needs to happen first!
+		super(fullName, birthYear);
+		this.course = course;
+	}
 
-const mike = new Student('Mike', 2001, 'Java');
+	introduce() {
+		console.log(`My name is ${this.fullName} and I study ${this.course}`);
+	}
 
-console.log('---- After chaining -----');
-console.log(mike);
-mike.introduce();
-console.log('Call calcAge function in Student\' objects');
-mike.calcAge();
+	calcAge() {
+		console.log(`I'm ${2037 - this.birthYear} years old.`);
+	}
+}
 
+// const martha = new StudentCl('Martha Jones', 2012);
+const martha = new StudentCl('Martha Jones', 2001, 'Java');
 
-console.log('---- Student.prototype.constructor ----');
-console.dir(Student.prototype.constructor);
+console.log(martha);
 
-Student.prototype.constructor = Student;
-console.log('---- Student.prototype.constructor ----');
-console.dir(Student.prototype.constructor);
+martha.introduce();
 
-console.log(mike instanceof Person);
-console.log(mike instanceof Student);
-
-
+martha.calcAge();

@@ -138,3 +138,35 @@ console.log(jessica.fullName);
 PersonCl.hey();
 
 // jessica.hey(); // Not working
+
+
+
+
+
+// Using object using Object.create
+const PersonProto = {
+	calcAge() {
+		console.log(2037 - this.birthYear);
+	},
+
+	// Constructor 
+	init(firstName, birthYear) {
+		this.firstName = firstName;
+		this.birthYear = birthYear;
+	}
+};
+
+
+const steven = Object.create(PersonProto);
+console.log(steven);
+steven.name = 'Steven';
+steven.birthYear = 2001;
+steven.calcAge();
+
+
+console.log(steven.__proto__ === PersonProto);
+
+const sarah = Object.create(PersonProto);
+sarah.init('Sarah', 2000);
+sarah.calcAge();
+console.log(sarah);

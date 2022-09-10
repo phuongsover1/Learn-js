@@ -47,10 +47,16 @@ console.log(jonas);
 
 
 Person.prototype.species = 'Homo Sapiens';
-console.log(jonas.species, matilda.species);
 
-console.log(jonas.hasOwnProperty('firstName'));
-console.log(jonas.hasOwnProperty('species'));
+// Static method on constructor object
+Person.hey = function() {
+	console.log('Hi there!');
+};
+
+console.log('---- Static Method Constructor function ----');
+Person.hey();
+
+// jonas.hey(); // Not working
 
 // class expression
 // const PersonCl = class {
@@ -90,6 +96,7 @@ class PersonCl {
 		};
 	}
 
+	// Instance method
 	// Methods will be added to .prototype property
 	calcAge() {
 		console.log(2037 - this.birthYear);
@@ -110,6 +117,12 @@ class PersonCl {
 		return this._fullName;
 	}
 
+	// Static method 
+	static hey() {
+		console.log('--- hey in PersonCl ----');
+		console.log(this);
+	}
+
 }
 
 const jessica = new PersonCl('Jessica David', 1870);
@@ -121,3 +134,7 @@ console.log(jessica.fullName);
 
 // console.log(Number.parseFloat('1.2'));
 // Number(3).parseFloat();
+
+PersonCl.hey();
+
+// jessica.hey(); // Not working

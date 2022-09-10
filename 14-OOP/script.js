@@ -330,15 +330,18 @@
 
 class Account {
 	constructor(owner, currency, pin) {
-		this.owner = owner;
-		this.currency = currency;
-		this.pin = pin;
-		this.movements = [];
-		this.locale = navigator.language;
+		this._owner = owner;
+		this._currency = currency;
+		this._pin = pin;
+		this._movements = [];
+		this._locale = navigator.language;
 
 		console.log(`Thanks for opening an accout, ${owner}`);
 	}
 
+	_approveLoan(val) {
+		return true;
+	}
 	// Public interface
 	deposit(val) {
 		this.movements.push(val);

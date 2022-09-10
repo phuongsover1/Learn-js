@@ -224,104 +224,133 @@
 
 
 
-class PersonCl {
-	constructor(fullName, birthYear) {
-		this.fullName = fullName;
-		this.birthYear = birthYear;
+// class PersonCl {
+// 	constructor(fullName, birthYear) {
+// 		this.fullName = fullName;
+// 		this.birthYear = birthYear;
+//
+// 		this.doSomething = function() {
+// 			console.log('doSomething');
+// 		};
+// 	}
+//
+// 	// Instance method
+// 	// Methods will be added to .prototype property
+// 	calcAge() {
+// 		console.log(2037 - this.birthYear);
+// 	}
+//
+// 	get age() {
+// 		return 2037 - this.birthYear;
+// 	}
+//
+// 	// Set a property that already exists
+// 	set fullName(name) {
+// 		console.log(name);
+// 		if (name.includes(' ')) this._fullName = name;
+// 		else alert('`${name}` is not a full name!');
+// 	}
+//
+// 	get fullName() {
+// 		return this._fullName;
+// 	}
+//
+// 	// Static method 
+// 	static hey() {
+// 		console.log('--- hey in PersonCl ----');
+// 		console.log(this);
+// 	}
+//
+// }
+//
+// class StudentCl extends PersonCl {
+//
+// 	constructor(fullName, birthYear, course) {
+// 		// Always needs to happen first!
+// 		super(fullName, birthYear);
+// 		this.course = course;
+// 	}
+//
+// 	introduce() {
+// 		console.log(`My name is ${this.fullName} and I study ${this.course}`);
+// 	}
+//
+// 	calcAge() {
+// 		console.log(`I'm ${2037 - this.birthYear} years old.`);
+// 	}
+// }
+//
+// // const martha = new StudentCl('Martha Jones', 2012);
+// const martha = new StudentCl('Martha Jones', 2001, 'Java');
+//
+// console.log(martha);
+//
+// martha.introduce();
+//
+// martha.calcAge();
+//
+//
+// // Inheritance between classes using Object.create()
+// const PersonProto = {
+// 	calcAge() {
+// 		console.log(2037 - this.birthYear);
+// 	},
+//
+// 	init(firstName, birthYear) {
+// 		this.firstName = firstName;
+// 		this.birthYear = birthYear;
+// 	},
+//
+// };
+//
+//
+//
+// const StudentProto = Object.create(PersonProto);
+// StudentProto.init = function(firstName, birthYear, course) {
+// 	PersonProto.init.bind(this, firstName, birthYear)();
+// 	this.course = course;
+// };
+//
+// StudentProto.introduce = function() {
+// 	console.log('hello world');
+// };
+//
+// // const testStudentProtoObj = StudentProto.init('Phuong', 2001, 'JS');
+// console.log('---- testStudentProtoObj ----');
+// // console.log(StudentProto);
+// // console.log(testStudentProtoObj);
+// const jay = Object.create(StudentProto);
+//
+// jay.init('Phuong', 2001, 'JS');
+// console.log(jay);
+// jay.introduce();
+// jay.calcAge();
 
-		this.doSomething = function() {
-			console.log('doSomething');
-		};
+
+
+class Account {
+	constructor(owner, currency, pin) {
+		this.owner = owner;
+		this.currency = currency;
+		this.pin = pin;
+		this.movements = [];
+		this.locale = navigator.language;
+
+		console.log(`Thanks for opening an accout, ${owner}`);
 	}
 
-	// Instance method
-	// Methods will be added to .prototype property
-	calcAge() {
-		console.log(2037 - this.birthYear);
+	// Public interface
+	deposit(val) {
+		this.movements.push(val);
 	}
 
-	get age() {
-		return 2037 - this.birthYear;
+	withdraw(val) {
+		this.deposit.call(this, -val);
 	}
-
-	// Set a property that already exists
-	set fullName(name) {
-		console.log(name);
-		if (name.includes(' ')) this._fullName = name;
-		else alert('`${name}` is not a full name!');
-	}
-
-	get fullName() {
-		return this._fullName;
-	}
-
-	// Static method 
-	static hey() {
-		console.log('--- hey in PersonCl ----');
-		console.log(this);
-	}
-
 }
 
-class StudentCl extends PersonCl {
-
-	constructor(fullName, birthYear, course) {
-		// Always needs to happen first!
-		super(fullName, birthYear);
-		this.course = course;
-	}
-
-	introduce() {
-		console.log(`My name is ${this.fullName} and I study ${this.course}`);
-	}
-
-	calcAge() {
-		console.log(`I'm ${2037 - this.birthYear} years old.`);
-	}
-}
-
-// const martha = new StudentCl('Martha Jones', 2012);
-const martha = new StudentCl('Martha Jones', 2001, 'Java');
-
-console.log(martha);
-
-martha.introduce();
-
-martha.calcAge();
-
-
-// Inheritance between classes using Object.create()
-const PersonProto = {
-	calcAge() {
-		console.log(2037 - this.birthYear);
-	},
-
-	init(firstName, birthYear) {
-		this.firstName = firstName;
-		this.birthYear = birthYear;
-	},
-
-};
-
-
-
-const StudentProto = Object.create(PersonProto);
-StudentProto.init = function(firstName, birthYear, course) {
-	PersonProto.init.bind(this, firstName, birthYear)();
-	this.course = course;
-};
-
-StudentProto.introduce = function() {
-	console.log('hello world');
-};
-
-// const testStudentProtoObj = StudentProto.init('Phuong', 2001, 'JS');
-console.log('---- testStudentProtoObj ----');
-// console.log(StudentProto);
-// console.log(testStudentProtoObj);
-const jay = Object.create(StudentProto);
-
-jay.init('Phuong', 2001, 'JS');
-console.log(jay);
-jay.introduce();
-jay.calcAge();
+const acc1 = new Account('Phuong', 'VND', 1505);
+console.log(acc1);
+acc1.deposit(100);
+acc1.withdraw(200);
+console.log(acc1);

@@ -123,9 +123,22 @@ const getCountryData = function(country) {
 	// 		renderData(data[0]);
 	// 	});
 
+	// fetch(`https://restcountries.com/v3.1/name/${country}`)
+	// 	.then(response => response.json())
+	// 	.then(data => renderData(data[0]));
+
 	fetch(`https://restcountries.com/v3.1/name/${country}`)
 		.then(response => response.json())
-		.then(data => renderData(data[0]));
+		.then(data => {
+			renderData(data[0]);
+
+			const neighbour = data[0].borders[1];
+			if (!neighbour) return;
+
+			return fetch(`https://restcountries.com/v3.1/alpha/${neighbour}`);
+		})
+		.then(response => response.json())
+		.then(data => renderData(data[0], 'neighbour'));
 };
 
-getCountryData('vietnam');
+getCountryData('japan');

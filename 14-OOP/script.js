@@ -326,15 +326,26 @@
 // jay.introduce();
 // jay.calcAge();
 
+// 1) Public fields
+// 2) Private fields
+// 3) Public Methods
+// 4) Private methods
 
 
 class Account {
+	// 1) Public fields (instances)
+	locale = navigator.language;
+
+	// 2) Private fields 
+	#movements = [];
+	#pin;
+
 	constructor(owner, currency, pin) {
 		this._owner = owner;
 		this._currency = currency;
 		this._pin = pin;
-		this._movements = [];
-		this._locale = navigator.language;
+		// this._movements = [];
+		// this._locale = navigator.language;
 
 		console.log(`Thanks for opening an accout, ${owner}`);
 	}
@@ -342,14 +353,25 @@ class Account {
 	_approveLoan(val) {
 		return true;
 	}
+
+	// 3) Public method
 	// Public interface
 	deposit(val) {
-		this.movements.push(val);
+		this.#movements.push(val);
 	}
 
 	withdraw(val) {
 		this.deposit.call(this, -val);
+		this.#toEat();
 	}
+
+	// 4) Private methods 
+	#toEat() {
+		console.log('Eating');
+	}
+
+
+
 }
 
 const acc1 = new Account('Phuong', 'VND', 1505);
@@ -357,3 +379,7 @@ console.log(acc1);
 acc1.deposit(100);
 acc1.withdraw(200);
 console.log(acc1);
+
+console.log('---- Accessing private fields ----');
+// console.log(acc1.#movements);
+acc1.#toEat();

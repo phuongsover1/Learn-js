@@ -21,7 +21,6 @@ const renderData = function(data, className = '') {
 	`;
 
 	countriesContainer.insertAdjacentHTML('beforeend', html);
-	countriesContainer.style.opacity = 1;
 };
 // const getCountryAndNeighbour = function(country) {
 // 	// AJAX call country 1
@@ -128,17 +127,38 @@ const getCountryData = function(country) {
 	// 	.then(data => renderData(data[0]));
 
 	fetch(`https://restcountries.com/v3.1/name/${country}`)
-		.then(response => response.json())
+		.then(response => {
+			console.log(response);
+
+			// imediately rejecting promise if the country not found.
+			if (!response.ok) {
+				throw new Error(`Country not found. ${response.status}`);
+			}
+			return response.json();
+		})
 		.then(data => {
 			renderData(data[0]);
 
-			const neighbour = data[0].borders[1];
+			const neighbour = data[0]?.borders?.at(1);
+			// const neighbour = 'dssdsdsd';
 			if (!neighbour) return;
 
 			return fetch(`https://restcountries.com/v3.1/alpha/${neighbour}`);
 		})
-		.then(response => response.json())
-		.then(data => renderData(data[0], 'neighbour'));
+		.then(response => {
+
+			// imediately rejecting promise if the country not found.
+			if (!response.ok) {
+				throw new Error(`Country not found. ${response.status}`);
+			}
+
+			return response.json();
+		})
+		.then(data => renderData(data[0], 'neighbour'))
+		.catch(error => alert(`Some thing went wrong. ${error}`))
+		.finally(() => countriesContainer.style.opacity = 1);
 };
 
-getCountryData('japan');
+btn.addEventListener('click', () => {
+	getCountryData('japan');
+});

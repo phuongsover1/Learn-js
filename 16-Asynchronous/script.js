@@ -110,6 +110,15 @@ const renderData = function(data, className = '') {
 // Learning Promises
 // const request = fetch('https://restcountries.com/v3.1/name/vietnam');
 // console.log(request);
+// Refactor 
+const getJSON = function(url, errorMsg = 'Something went wrong!') {
+	return fetch(url)
+		.then(response => {
+			if (!response.ok)
+				throw new Error(`${errorMsg}. ${response.status}`);
+			return response.json();
+		});
+};
 const getCountryData = function(country) {
 	// fetch(`https://restcountries.com/v3.1/name/${country}`)
 	// 	.then(function(response) {
@@ -126,39 +135,57 @@ const getCountryData = function(country) {
 	// 	.then(response => response.json())
 	// 	.then(data => renderData(data[0]));
 
-	fetch(`https://restcountries.com/v3.1/name/${country}`)
-		.then(response => {
-			console.log(response);
+	// 	fetch(`https://restcountries.com/v3.1/name/${country}`)
+	// 		.then(response => {
+	// 			console.log(response);
+	//
+	// 			// imediately rejecting promise if the country not found.
+	// 			if (!response.ok) {
+	// 				throw new Error(`Country not found. ${response.status}`);
+	// 			}
+	// 			return response.json();
+	// 		})
+	// 		.then(data => {
+	// 			renderData(data[0]);
+	//
+	// 			const neighbour = data[0]?.borders?.at(1);
+	// 			// const neighbour = 'dssdsdsd';
+	// 			if (!neighbour) return;
+	//
+	// 			return fetch(`https://restcountries.com/v3.1/alpha/${neighbour}`);
+	// 		})
+	// 		.then(response => {
+	//
+	// 			// imediately rejecting promise if the country not found.
+	// 			if (!response.ok) {
+	// 				throw new Error(`Country not found. ${response.status}`);
+	// 			}
+	//
+	// 			return response.json();
+	// 		})
+	// 		.then(data => renderData(data[0], 'neighbour'))
+	// 		.catch(error => alert(`Some thing went wrong. ${error}`))
+	// 		.finally(() => countriesContainer.style.opacity = 1);
+	// };
 
-			// imediately rejecting promise if the country not found.
-			if (!response.ok) {
-				throw new Error(`Country not found. ${response.status}`);
-			}
-			return response.json();
-		})
+
+
+
+	getJSON(`https://restcountries.com/v3.1/name/${country}`)
 		.then(data => {
 			renderData(data[0]);
 
-			const neighbour = data[0]?.borders?.at(1);
-			// const neighbour = 'dssdsdsd';
-			if (!neighbour) return;
+			const neighbour = data[0].borders?.at(1);
+			if (!neighbour)
+				throw new Error('Neighbour not found.');
 
-			return fetch(`https://restcountries.com/v3.1/alpha/${neighbour}`);
-		})
-		.then(response => {
-
-			// imediately rejecting promise if the country not found.
-			if (!response.ok) {
-				throw new Error(`Country not found. ${response.status}`);
-			}
-
-			return response.json();
+			return getJSON(`https://restcountries.com/v3.1/alpha/${neighbour}`);
 		})
 		.then(data => renderData(data[0], 'neighbour'))
-		.catch(error => alert(`Some thing went wrong. ${error}`))
+		.catch(error => alert(error))
 		.finally(() => countriesContainer.style.opacity = 1);
-};
 
+};
 btn.addEventListener('click', () => {
-	getCountryData('japan');
+	getCountryData('vietnam');
 });

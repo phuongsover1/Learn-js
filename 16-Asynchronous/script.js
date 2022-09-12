@@ -205,13 +205,28 @@ btn.addEventListener('click', () => {
 //
 // console.log('Test end');
 
-const lottery = new Promise(function(resolve, reject) {
-	if (Math.random() >= 0.5)
-		resolve('You WIN');
-	else
-		reject(new Error('You lost your money'));
-});
+// const lottery = new Promise(function(resolve, reject) {
+// 	if (Math.random() >= 0.5)
+// 		resolve('You WIN');
+// 	else
+// 		reject(new Error('You lost your money'));
+// });
+//
+// lottery.then(res => console.log(res))
+// 	.catch(error => console.error(error));
+//
 
-lottery.then(res => console.log(res))
-	.catch(error => console.error(error));
+const getPosition = () => {
+	return new Promise((resolve, reject) => {
+		/* 
+			navigator.geolocation.getCurrentPosition(
+				position => resolve(position),
+				err => reject(err)
+			)
+			* */
+		navigator.geolocation.getCurrentPosition(resolve, reject);
+	});
+};
+
+getPosition().then(pos => console.log(pos));
 

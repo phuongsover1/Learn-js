@@ -189,3 +189,29 @@ const getCountryData = function(country) {
 btn.addEventListener('click', () => {
 	getCountryData('vietnam');
 });
+
+// Event loops
+// console.log('Test start');
+// setTimeout(() => {
+// 	console.log('0 sec timer');
+// }, 0);
+// Promise.resolve('Resolved promise 1').then(res => console.log(res));
+//
+// Promise.resolve('Resolved promise 2').then(res => {
+// 	for (let i = 0; i < 1000000000; i++) {
+// 	}
+// 	console.log(res);
+// });
+//
+// console.log('Test end');
+
+const lottery = new Promise(function(resolve, reject) {
+	if (Math.random() >= 0.5)
+		resolve('You WIN');
+	else
+		reject(new Error('You lost your money'));
+});
+
+lottery.then(res => console.log(res))
+	.catch(error => console.error(error));
+
